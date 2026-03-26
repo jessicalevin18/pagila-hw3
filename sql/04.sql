@@ -18,6 +18,7 @@ SELECT first_name, last_name
         JOIN film_category fc ON fa.film_id = fc.film_id
         JOIN category c ON fc.category_id = c.category_id
         WHERE c.name = 'Horror')
-    GROUP BY  last_name, first_name;
+    GROUP BY  last_name, first_name
+    ORDER BY last_name;
 
 
