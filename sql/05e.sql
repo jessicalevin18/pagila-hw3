@@ -17,4 +17,46 @@
  * WHERE title = 'AMERICAN CIRCUS';
  * ```
  * This problem should be solved by a self join on the "film_category" table.
- */
+*/
+
+SELECT title
+FROM (
+    SELECT DISTINCT f2.title
+    FROM film f1
+    JOIN film_category fc1 on (f1.film_id = fc1.film_id)
+    JOIN category c ON (fc1.category_id = c.category_id)
+    JOIN film_category fc2 ON (c.category_id = fc2.category_id)
+    JOIN film f2 on (fc2.film_id = f2.film_id)
+    WHERE c.name = 'Classics'
+    UNION ALL
+    SELECT DISTINCT f2.title
+    FROM film f1
+    JOIN film_category fc1 on (f1.film_id = fc1.film_id)
+    JOIN category c ON (fc1.category_id = c.category_id)
+    JOIN film_category fc2 ON (c.category_id = fc2.category_id)
+    JOIN film f2 on (fc2.film_id = f2.film_id)
+    WHERE c.name = 'Foreign'
+    UNION ALL
+    SELECT DISTINCT f2.title
+    FROM film f1
+    JOIN film_category fc1 on (f1.film_id = fc1.film_id)
+    JOIN category c ON (fc1.category_id = c.category_id)
+    JOIN film_category fc2 ON (c.category_id = fc2.category_id)
+    JOIN film f2 on (fc2.film_id = f2.film_id)
+    WHERE c.name = 'Music'
+) AS subquery(title)
+GROUP BY title
+HAVING COUNT(*) > 1
+ORDER BY title;
+
+/*
+SELECT name
+FROM category
+JOIN film_category USING (category_id)
+JOIN film USING (film_id)
+WHERE title = 'AMERICAN CIRCUS'
+
+'CLASSICS'
+'FOREIGN'
+'MUSIC';
+*/
